@@ -1,0 +1,5 @@
+chatwork:
+  id: mail_address_here
+  pass: password_here
+notifiers:
+  - name: simple
