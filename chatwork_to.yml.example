@@ -1,5 +1,7 @@
 chatwork:
-  id: mail_address_here
+  email: mail_address_here
   pass: password_here
+  room_ids:
+    - rid_here
 notifiers:
   - name: simple
