@@ -1,8 +1,6 @@
-require 'yaml'
-
 module ChatworkTo
   class Config
-    attr_accessor :chatwork_id, :chatwork_pass, :notifiers
+    attr_reader :chatwork_id, :chatwork_pass, :notifiers
 
     def initialize(opts)
       require_options!(opts)
