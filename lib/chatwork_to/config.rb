@@ -6,7 +6,7 @@ module ChatworkTo
       require_options!(opts)
       @chatwork_email = opts['chatwork']['email']
       @chatwork_pass  = opts['chatwork']['pass']
-      @room_ids       = Array[*opts['room_ids']]
+      @room_ids       = Array[*opts['chatwork']['room_ids']]
       @notifiers      = Array[*opts['notifiers']]
     end
 

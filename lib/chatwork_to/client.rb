@@ -72,9 +72,10 @@ module ChatworkTo
 
     def build_load_chat_url(room_id, last_chat_id)
       uri = URI.parse(CHATWORK_URL)
+      uri.path = '/gateway.php'
       uri.query = {
         cmd: 'load_chat',
-        rid: room_id,
+        room_id: room_id,
         last_chat_id: last_chat_id,
       }.merge(@config).to_query
       uri.to_s

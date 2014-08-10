@@ -52,7 +52,7 @@ module ChatworkTo
       {
         'success' => false,
         'notify'  => false,
-        'last_chat_id => 0,
+        'last_chat_id' => 0,
       }
     end
   end
