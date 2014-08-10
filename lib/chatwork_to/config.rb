@@ -1,5 +1,3 @@
-require 'yaml'
-
 module ChatworkTo
   class Config
     attr_accessor :chatwork_id, :chatwork_pass, :notifiers
