@@ -23,3 +23,6 @@ mkmf.log
 
 # local gems
 vendor/bundle/*
+
+# configuration file
+chatwork_to.yml
