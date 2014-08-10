@@ -7,6 +7,7 @@ require 'chatwork_to/version'
 require 'chatwork_to/config'
 require 'chatwork_to/client'
 require 'chatwork_to/notifier'
+require 'chatwork_to/response'
 
 module ChatworkTo
 end
