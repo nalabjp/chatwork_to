@@ -1,20 +1,22 @@
 module ChatworkTo
   class Config
-    attr_reader :chatwork_id, :chatwork_pass, :notifiers
+    attr_reader :chatwork_email, :chatwork_pass, :room_ids, :notifiers
 
     def initialize(opts)
       require_options!(opts)
-      @chatwork_id = opts['chatwork']['id']
-      @chatwork_pass = opts['chatwork']['pass']
-      @notifiers = Array[*opts['notifiers']]
+      @chatwork_email = opts['chatwork']['email']
+      @chatwork_pass  = opts['chatwork']['pass']
+      @room_ids       = Array[*opts['room_ids']]
+      @notifiers      = Array[*opts['notifiers']]
     end
 
   private
     def require_options!(opts)
-      raise InvalideConfiguration if opts['chatwork'].blank?
-      raise InvalideConfiguration if opts['chatwork']['id'].blank?
-      raise InvalideConfiguration if opts['chatwork']['pass'].blank?
-      raise InvalideConfiguration if opts['notifiers'].blank?
+      raise InvalideConfiguration, 'Require configureation: chatwork'           if opts['chatwork'].blank?
+      raise InvalideConfiguration, 'Require configureation: chatwork.email'     if opts['chatwork']['email'].blank?
+      raise InvalideConfiguration, 'Require configureation: chatwork.pass'      if opts['chatwork']['pass'].blank?
+      raise InvalideConfiguration, 'Require configureation: chatwork.room_ids'  if opts['chatwork']['room_ids'].blank?
+      raise InvalideConfiguration, 'Require configureation: notifiers'          if opts['notifiers'].blank?
     end
 
     class << self
