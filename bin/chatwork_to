@@ -1,0 +1,4 @@
+#!/usr/bin/env ruby
+require 'chatwork_to'
+
+ChatworkTo::Process.new.run

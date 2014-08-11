@@ -12,11 +12,9 @@ module ChatworkTo
       end
     end
 
-    def notify(msg)
+    def notify(notification)
       @notifiers.each do |notifier|
-        if notifier.respond_to?(:notify)
-          notifier.notify(msg)
-        end
+        notifier.notify(notification)
       end
     end
   end
