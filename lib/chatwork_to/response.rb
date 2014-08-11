@@ -7,11 +7,7 @@ module ChatworkTo
       end
     end
 
-    def get(room_id)
-      @responses[room_id.to_s]
-    end
-
-    def set(room_id, response)
+    def store(room_id, response)
       old = @responses[room_id.to_s]
 
       current = default_response.merge({ 'success' => response['status']['success'] })
@@ -45,6 +41,14 @@ module ChatworkTo
 
     def notify?(room_id)
       @responses[room_id.to_s]['notify']
+    end
+
+    def last_chat_id(room_id)
+      @responses[room_id.to_s]['last_chat_id']
+    end
+
+    def chat_list(room_id)
+      @responses[room_id.to_s]['chat_list']
     end
 
   private
