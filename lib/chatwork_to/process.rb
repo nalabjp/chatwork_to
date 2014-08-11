@@ -11,7 +11,7 @@ module ChatworkTo
     end
 
     def run
-      notify('|Information| ChatworkTo start.')
+      notify('Info: ChatworkTo start.')
       loop do
         @config.room_ids.each do |room_id|
           @response.store(room_id, @client.load_chat(room_id, @response.last_chat_id(room_id)))
@@ -22,7 +22,7 @@ module ChatworkTo
             @error_count = 0
           else
             init_client
-            notify('|Warning| Restart client')
+            notify('Warn: Restart client')
             @error_count += 1
             break
           end
@@ -30,7 +30,7 @@ module ChatworkTo
 
         sleep @interval
         if @error_count > CONTINUOUS_ERROR_LIMIT
-          notify("|Error| Exit caused by #{CONTINUOUS_ERROR_LIMIT} continuous error has occurred.")
+          notify("Error: Exit caused by #{CONTINUOUS_ERROR_LIMIT} continuous error has occurred.")
           break
         end
       end
