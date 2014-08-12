@@ -12,8 +12,8 @@ module ChatworkTo
         @logger.level = Logger::INFO
       end
 
-      def notify(notification)
-        @logger.info(notification)
+      def notify(message)
+        @logger.info(message.to_s)
       end
     end
   end

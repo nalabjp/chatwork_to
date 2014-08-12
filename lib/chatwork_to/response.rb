@@ -1,9 +1,9 @@
 module ChatworkTo
   class Response
-    def initialize(room_ids)
+    def initialize(rooms)
       @responses = {}
-      room_ids.each do |room_id|
-        @responses[room_id.to_s] = default_response
+      rooms.each do |room|
+        @responses[room['id'].to_s] = default_response
       end
     end
 

@@ -1,12 +1,16 @@
 chatwork:
   email: 'mail_address_here'
   pass: 'password_here'
-  room_ids:
-    - 'rid_here'
+  rooms:
+    -
+      id: 'room_id_here'
+      name: 'room_name_here'
 notifiers:
-  - name: simple
+  -
+    name: simple
   #  io: '/path/to/log_file'
   #  rotate: 'Ruby Logger rotate option'
-  #- name: slack
+  #-
+  #  name: slack
   #  domain: 'domanin_here'
   #  token: 'access_token_here'
