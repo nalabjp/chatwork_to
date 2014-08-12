@@ -1,22 +1,22 @@
 module ChatworkTo
   class Config
-    attr_reader :chatwork_email, :chatwork_pass, :room_ids, :notifiers
+    attr_reader :chatwork_email, :chatwork_pass, :rooms, :notifiers
 
     def initialize(opts)
       require_options!(opts)
       @chatwork_email = opts['chatwork']['email']
       @chatwork_pass  = opts['chatwork']['pass']
-      @room_ids       = Array[*opts['chatwork']['room_ids']]
+      @rooms          = Array[*opts['chatwork']['rooms']]
       @notifiers      = Array[*opts['notifiers']]
     end
 
   private
     def require_options!(opts)
-      raise InvalideConfiguration, 'Require configureation: chatwork'           if opts['chatwork'].blank?
-      raise InvalideConfiguration, 'Require configureation: chatwork.email'     if opts['chatwork']['email'].blank?
-      raise InvalideConfiguration, 'Require configureation: chatwork.pass'      if opts['chatwork']['pass'].blank?
-      raise InvalideConfiguration, 'Require configureation: chatwork.room_ids'  if opts['chatwork']['room_ids'].blank?
-      raise InvalideConfiguration, 'Require configureation: notifiers'          if opts['notifiers'].blank?
+      raise InvalideConfiguration, 'Require configureation: chatwork'       if opts['chatwork'].blank?
+      raise InvalideConfiguration, 'Require configureation: chatwork.email' if opts['chatwork']['email'].blank?
+      raise InvalideConfiguration, 'Require configureation: chatwork.pass'  if opts['chatwork']['pass'].blank?
+      raise InvalideConfiguration, 'Require configureation: chatwork.rooms' if opts['chatwork']['rooms'].blank?
+      raise InvalideConfiguration, 'Require configureation: notifiers'      if opts['notifiers'].blank?
     end
 
     class << self

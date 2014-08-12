@@ -12,11 +12,11 @@ module ChatworkTo
       end
     end
 
-    def notify(notification)
-      notifications = Array[*notification]
+    def notify(messages)
+      messages = Array[*messages]
       @notifiers.each do |notifier|
-        notifications.each do |n|
-          notifier.notify(n)
+        messages.each do |msg|
+          notifier.notify(msg)
         end
       end
     end
