@@ -7,18 +7,27 @@ module ChatworkTo
     end
 
     def run
-      notify(message_from_string('Info: ChatworkTo start.'))
+      info('Info: ChatworkTo start.')
       loop do
         @rooms.each do |rid, data|
           @response.store(rid, @client.load_chat(rid, @response.last_chat_id(rid)))
           if @response.success?(rid)
             if @response.notify?(rid)
-              notify(message_from_chat_list(@response.chat_list(rid), {'id' => rid, 'name' => data['n']}, @all_users))
+              notify(
+                {
+                  'chat_list' => @response.chat_list(rid),
+                  'room' => {
+                    'id' => rid,
+                    'name' => data['n']
+                  },
+                  'users' => @all_users
+                }
+              )
             end
             @error_count = 0
           else
             init_client
-            notify(message_from_string('Warn: Restart client'))
+            info('Warn: Restart client')
             @error_count += 1
             break
           end
@@ -26,7 +35,7 @@ module ChatworkTo
 
         sleep @interval
         if @error_count > CONTINUOUS_ERROR_LIMIT
-          notify(message_from_string("Error: Exit caused by #{CONTINUOUS_ERROR_LIMIT} continuous error has occurred."))
+          info("Error: Exit caused by #{CONTINUOUS_ERROR_LIMIT} continuous error has occurred.")
           break
         end
       end
@@ -67,16 +76,12 @@ module ChatworkTo
       @config.rooms.each { |id| @rooms[id] = rooms[id] }
     end
 
-    def message_from_string(text)
-      Message.from_string(text)
+    def notify(hash)
+      @notifier.notify(hash)
     end
 
-    def message_from_chat_list(chat_list, room, all_users)
-      Message.from_chat_list(chat_list, room, all_users)
-    end
-
-    def notify(messages)
-      @notifier.notify(messages)
+    def info(message)
+      @notifier.info(message)
     end
   end
 end

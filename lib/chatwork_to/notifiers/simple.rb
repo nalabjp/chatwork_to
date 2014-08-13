@@ -9,11 +9,15 @@ module ChatworkTo
           File.open(opts['io'], 'a')
         end
         @logger = Logger.new(opts['io'], opts['rotation'])
-        @logger.level = Logger::INFO
+        @logger.level = Logger::DEBUG
       end
 
-      def notify(message)
-        @logger.info(message.to_s)
+      def notify(hash)
+        @logger.debug({chat_list: hash['chat_list'], room: hash['room']}.inspect)
+      end
+
+      def info(message)
+        @logger.info(message)
       end
     end
   end

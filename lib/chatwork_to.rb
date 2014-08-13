@@ -8,7 +8,6 @@ require 'chatwork_to/config'
 require 'chatwork_to/client'
 require 'chatwork_to/notifier'
 require 'chatwork_to/response'
-require 'chatwork_to/message'
 require 'chatwork_to/process'
 
 module ChatworkTo
