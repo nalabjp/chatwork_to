@@ -17,7 +17,7 @@ module ChatworkTo
 
     private
       def build_uri(opts)
-        @uri = URI.parse("https://#{opts['domain']}.slack.com")
+        @uri = URI.parse("https://#{opts['subdomain']}.slack.com")
         @uri.path = '/services/hooks/incoming-webhook'
         @uri.query = "token=#{opts['token']}"
         @uri
