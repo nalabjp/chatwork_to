@@ -13,7 +13,7 @@ module ChatworkTo
           @response.store(rid, @client.load_chat(rid, @response.last_chat_id(rid)))
           if @response.success?(rid)
             if @response.notify?(rid)
-              notify(message_from_chat_list(@response.chat_list(rid), {'id' => rid, 'name' => data['n']}))
+              notify(message_from_chat_list(@response.chat_list(rid), {'id' => rid, 'name' => data['n']}, @all_users))
             end
             @error_count = 0
           else
@@ -61,6 +61,7 @@ module ChatworkTo
       @interval    = 1.minutes
       @error_count = 0
       data = @client.init_load
+      @all_users = data['result']['contact_dat']
       rooms = data['result']['room_dat']
       @rooms = {}
       @config.rooms.each { |id| @rooms[id] = rooms[id] }
@@ -70,8 +71,8 @@ module ChatworkTo
       Message.from_string(text)
     end
 
-    def message_from_chat_list(chat_list, room)
-      Message.from_chat_list(chat_list, room)
+    def message_from_chat_list(chat_list, room, all_users)
+      Message.from_chat_list(chat_list, room, all_users)
     end
 
     def notify(messages)
