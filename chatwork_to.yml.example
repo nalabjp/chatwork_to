@@ -2,9 +2,7 @@ chatwork:
   email: 'mail_address_here'
   pass: 'password_here'
   rooms:
-    -
-      id: 'room_id_here'
-      name: 'room_name_here'
+    - 'room_id_here'
 notifiers:
   -
     name: simple
