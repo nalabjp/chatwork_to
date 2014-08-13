@@ -3,21 +3,17 @@ module ChatworkTo
     CONTINUOUS_ERROR_LIMIT = 10
     def initialize(yaml = nil)
       @yaml = yaml
-      init_config
-      init_client
-      init_response
-      init_notifier
       prepare
     end
 
     def run
       notify(message_from_string('Info: ChatworkTo start.'))
       loop do
-        @config.rooms.each do |room|
-          @response.store(room['id'], @client.load_chat(room['id'], @response.last_chat_id(room['id'])))
-          if @response.success?(room['id'])
-            if @response.notify?(room['id'])
-              notify(message_from_chat_list(@response.chat_list(room['id']), room))
+        @rooms.each do |rid, data|
+          @response.store(rid, @client.load_chat(rid, @response.last_chat_id(rid)))
+          if @response.success?(rid)
+            if @response.notify?(rid)
+              notify(message_from_chat_list(@response.chat_list(rid), {'id' => rid, 'name' => data['n']}))
             end
             @error_count = 0
           else
@@ -54,8 +50,20 @@ module ChatworkTo
     end
 
     def prepare
+      init_config
+      init_client
+      init_response
+      init_notifier
+      prepare_vars
+    end
+
+    def prepare_vars
       @interval    = 1.minutes
       @error_count = 0
+      data = @client.init_load
+      rooms = data['result']['room_dat']
+      @rooms = {}
+      @config.rooms.each { |id| @rooms[id] = rooms[id] }
     end
 
     def message_from_string(text)

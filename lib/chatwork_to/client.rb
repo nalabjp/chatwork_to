@@ -17,6 +17,10 @@ module ChatworkTo
       prepare
     end
 
+    def init_load
+      JSON.parse(@mechanize.get(build_init_load_url).body)
+    end
+
     def load_chat(room_id, last_chat_id)
       JSON.parse(@mechanize.get(build_load_chat_url(room_id, last_chat_id)).body)
     end
@@ -68,6 +72,18 @@ module ChatworkTo
 
     def verify?
       %I( myid ln _t _v _av ).all? { |item| @config[item].present? }
+    end
+
+    def build_init_load_url
+      uri = URI.parse(CHATWORK_URL)
+      uri.path = '/gateway.php'
+      uri.query = {
+        cmd: 'init_load',
+        rid: 0,
+        type: nil,
+        new: 1,
+      }.merge(@config).to_query
+      uri.to_s
     end
 
     def build_load_chat_url(room_id, last_chat_id)

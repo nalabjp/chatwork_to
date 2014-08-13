@@ -2,13 +2,13 @@ module ChatworkTo
   class Response
     def initialize(rooms)
       @responses = {}
-      rooms.each do |room|
-        @responses[room['id'].to_s] = default_response
+      rooms.each do |rid|
+        @responses[rid] = default_response
       end
     end
 
     def store(room_id, response)
-      old = @responses[room_id.to_s]
+      old = @responses[room_id]
 
       current = default_response.merge({ 'success' => response['status']['success'] })
       if current['success']
@@ -32,23 +32,23 @@ module ChatworkTo
         current['error_message'] = response['status']['message']
       end
 
-      @responses[room_id.to_s] = current
+      @responses[room_id] = current
     end
 
     def success?(room_id)
-      @responses[room_id.to_s]['success']
+      @responses[room_id]['success']
     end
 
     def notify?(room_id)
-      @responses[room_id.to_s]['notify']
+      @responses[room_id]['notify']
     end
 
     def last_chat_id(room_id)
-      @responses[room_id.to_s]['last_chat_id']
+      @responses[room_id]['last_chat_id']
     end
 
     def chat_list(room_id)
-      @responses[room_id.to_s]['chat_list']
+      @responses[room_id]['chat_list']
     end
 
   private
