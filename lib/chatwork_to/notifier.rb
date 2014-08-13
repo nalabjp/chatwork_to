@@ -12,13 +12,12 @@ module ChatworkTo
       end
     end
 
-    def notify(messages)
-      messages = Array[*messages]
-      @notifiers.each do |notifier|
-        messages.each do |msg|
-          notifier.notify(msg)
-        end
-      end
+    def notify(hash)
+      @notifiers.each { |n| n.notify(hash) }
+    end
+
+    def info(message)
+      @notifiers.each { |n| n.info(message) }
     end
   end
 end
