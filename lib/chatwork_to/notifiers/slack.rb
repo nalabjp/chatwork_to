@@ -13,15 +13,20 @@ module ChatworkTo
           rid   = hash['room']['id']
           rname = hash['room']['name'].presence || fname
           msg   = chat['msg']
-          text = "#{rname}(rid:#{rid})\n" << \
-                 "[From: #{fname}(id:#{fid})]\n" << \
-                 "#{msg}"
-          exec_notify(post_request(text))
+          attachment = {}
+          attachment[:fields] = [
+            {
+              title: "#{rname}(rid:#{rid}) [From: #{fname}(id:#{fid})]",
+              value: decorate(msg),
+              short: false,
+            }
+          ]
+          exec_notify(post_request(attachment: attachment))
         end
       end
 
       def info(message)
-        exec_notify(post_request(message))
+        exec_notify(post_request(text: decorate(message)))
       end
     private
       def build_uri(opts)
@@ -31,9 +36,9 @@ module ChatworkTo
         @uri
       end
 
-      def post_request(text)
+      def post_request(hash)
         req = Net::HTTP::Post.new("#{@uri.path}?#{@uri.query}", initheader = {'Content-Type' => 'application/json'})
-        req.body = {username: 'ChatworkTo', text: text}.to_json
+        req.body = {username: 'ChatworkTo', text: hash[:text], attachments: [hash[:attachment]]}.to_json
         req
       end
 
@@ -44,6 +49,16 @@ module ChatworkTo
         https.set_debug_output($stdout) if @debug
         res = https.start { |h| h.request(req) }
         $stdout.puts(res.body) if @debug
+      end
+
+      def decorate(text)
+        auto_link_url(text)
+      end
+
+      def auto_link_url(text)
+        text.gsub(/(#{URI.regexp(%w(http https))})/) do
+          %w(http:// https://).include?($1) ? $1 : "<#{CGI.escape_html $1}>"
+        end
       end
     end
   end
