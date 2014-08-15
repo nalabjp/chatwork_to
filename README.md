@@ -1,6 +1,6 @@
 # ChatworkTo
 
-TODO: Write a gem description
+ChatWorkTo can transfer ChatWork messages via notifier.
 
 ## Installation
 
@@ -17,8 +17,48 @@ Or install it yourself as:
     $ gem install chatwork_to
 
 ## Usage
+### Setup chatwork_to.yml
+Create configuration file named `chatwork_to.yml` in `./` or `~/` directory. Required configuration are:
+```
+chatwork:
+  email: 'email'
+  pass:  'password'
+  rooms:
+    - 'room id'
+```
+`rooms` is array for multiple room id.
 
-TODO: Write usage instructions here
+## Notifiers
+### Simple
+Simple Notifier which is based on Ruby Logger is output to `$stdout`.
+```
+notifiers:
+  -
+    name: simple
+```
+If used `io` option, logger output to file. `rotate`(Default:`weekly`) option is compliant with the rotate option of Ruby Logger.
+```
+notifiers:
+  -
+    name: simple
+    io: '~/logs/chatwork_to.log'
+    rotate: weekly
+```
+
+### Slack
+Slack Notifier forwards to Slack messages of ChatWork via Slack API.
+```
+notifiers:
+  -
+    name: slack
+    token: 'API authentication token'
+    channel: 'public channel or private group or @user'
+```
+
+## Run
+```
+$ chatwork_to
+```
 
 ## Contributing
 
