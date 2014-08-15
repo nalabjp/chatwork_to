@@ -10,5 +10,5 @@ notifiers:
   #  rotate: 'Ruby Logger rotate option'
   #-
   #  name: slack
-  #  subdomain: 'subdomanin_here' # https://[subdomain].slack.com
-  #  token: 'access_token_here'   # incoming-webhook access token
+  #  token: 'token_here'      # API authentication token
+  #  channel: 'channel_here'  # public channel or private group or @user
