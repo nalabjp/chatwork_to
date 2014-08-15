@@ -3,42 +3,52 @@ module ChatworkTo
     class Slack
       def initialize(opts = {})
         @debug = !!opts.delete('debug')
-        build_uri(opts)
+        build_uri
+        build_default_query(opts)
       end
 
       def notify(hash)
         hash['chat_list'].each do |chat|
-          fid   = chat['aid'].to_s
-          fname = hash['users'][fid]['name']
-          rid   = hash['room']['id']
-          rname = hash['room']['name'].presence || fname
-          msg   = chat['msg']
-          attachment = {}
-          attachment[:fields] = [
-            {
-              title: "#{rname}(rid:#{rid}) [From: #{fname}(id:#{fid})]",
-              value: decorate(msg),
-              short: false,
-            }
-          ]
-          exec_notify(post_request(attachment: attachment))
+          text, attachment = request_body(chat, hash['room'], hash['users'])
+          exec_notify(post_request(text: text, attachment: attachment))
         end
       end
 
       def info(message)
         exec_notify(post_request(text: decorate(message)))
       end
+
     private
-      def build_uri(opts)
-        @uri = URI.parse("https://#{opts['subdomain']}.slack.com")
-        @uri.path = '/services/hooks/incoming-webhook'
-        @uri.query = "token=#{opts['token']}"
-        @uri
+      def build_uri
+        @uri = URI.parse('https://slack.com/api/chat.postMessage')
+      end
+
+      def build_default_query(opts)
+        @default_query = {username: 'ChatworkTo', token: opts['token'], channel: opts['channel'], parse: 'full'}
+      end
+
+      def request_body(chat, room, users)
+        fid   = chat['aid'].to_s
+        fname = users[fid]['name']
+        rid   = room['id']
+        rname = room['name'].presence || fname
+        msg   = chat['msg']
+        text  = "Message from #{fname} (id:#{fid})"
+        attachment = {}
+        attachment[:fields] = [
+          {
+            fallback: 'chatwork message',
+            title: "#{rname} (rid:#{rid})",
+            value: decorate(msg),
+            short: false,
+          }
+        ]
+        [text, attachment]
       end
 
       def post_request(hash)
-        req = Net::HTTP::Post.new("#{@uri.path}?#{@uri.query}", initheader = {'Content-Type' => 'application/json'})
-        req.body = {username: 'ChatworkTo', text: hash[:text], attachments: [hash[:attachment]]}.to_json
+        req = Net::HTTP::Post.new(@uri.path)
+        req.body = @default_query.merge({text: hash[:text], attachments: [hash[:attachment]].to_json}).to_query
         req
       end
 
@@ -52,13 +62,7 @@ module ChatworkTo
       end
 
       def decorate(text)
-        auto_link_url(text)
-      end
-
-      def auto_link_url(text)
-        text.gsub(/(#{URI.regexp(%w(http https))})/) do
-          %w(http:// https://).include?($1) ? $1 : "<#{CGI.escape_html $1}>"
-        end
+        text
       end
     end
   end
