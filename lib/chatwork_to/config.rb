@@ -32,7 +32,7 @@ module ChatworkTo
 
       def load_yaml(yaml = nil)
         default_confs.unshift(yaml).compact.each do |yml|
-          config = YAML.load_file(yml) rescue nil
+          config = YAML.load_file(File.expand_path(yml)) rescue nil
           return config unless config.nil?
         end
         nil
