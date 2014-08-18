@@ -1,8 +1,8 @@
 module ChatworkTo
   class Process
     CONTINUOUS_ERROR_LIMIT = 10
-    def initialize(yaml = nil)
-      @yaml = yaml
+    def initialize(opts = {})
+      @options = opts
       prepare
     end
 
@@ -43,7 +43,7 @@ module ChatworkTo
 
   private
     def init_config
-      @config = Config.load(@yaml)
+      @config = Config.load(@options)
     end
 
     def init_client
