@@ -22,7 +22,11 @@ module ChatworkTo
     class << self
       def load(opts = {})
         conf_hash = load_yaml(opts)
-        new(conf_hash) if conf_hash.present?
+        if conf_hash.present?
+          new(conf_hash)
+        else
+          raise InvalidConfiguration, 'Nothing configuration'
+        end
       end
 
     private
