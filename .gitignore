@@ -26,3 +26,7 @@ vendor/bundle/*
 
 # configuration file
 chatwork_to.yml
+
+# daemons
+chatwork_to*pid
+chatwork_to*log
