@@ -20,18 +20,27 @@ module ChatworkTo
     end
 
     class << self
-      def load(yaml = nil)
-        conf_hash = load_yaml(yaml)
+      def load(opts = {})
+        conf_hash = load_yaml(opts)
         new(conf_hash) if conf_hash.present?
       end
 
     private
-      def default_confs
-        %w( ./ ~/ ).map{ |dir| dir.concat('chatwork_to.yml') }
+      def default_conf_dirs
+        %w( ./ ~/ )
       end
 
-      def load_yaml(yaml = nil)
-        default_confs.unshift(yaml).compact.each do |yml|
+      def load_yaml(opts = {})
+        confs = default_conf_dirs
+        confs.unshift(opts['dir']) if opts['dir'].present?
+        confs.unshift(opts['yaml']) if opts['yaml'].present?
+
+        confs.compact.each do |file_or_dir|
+          if Dir.directory?(file_or_dir)
+            yml = file_or_dir.concat('chatwork_to.yml')
+          else
+            yml = file_or_dir
+          end
           config = YAML.load_file(File.expand_path(yml)) rescue nil
           return config unless config.nil?
         end
