@@ -12,11 +12,11 @@ module ChatworkTo
 
   private
     def require_options!(opts)
-      raise InvalideConfiguration, 'Require configureation: chatwork'       if opts['chatwork'].blank?
-      raise InvalideConfiguration, 'Require configureation: chatwork.email' if opts['chatwork']['email'].blank?
-      raise InvalideConfiguration, 'Require configureation: chatwork.pass'  if opts['chatwork']['pass'].blank?
-      raise InvalideConfiguration, 'Require configureation: chatwork.rooms' if opts['chatwork']['rooms'].blank?
-      raise InvalideConfiguration, 'Require configureation: notifiers'      if opts['notifiers'].blank?
+      raise InvalidConfiguration, 'Require configuration: chatwork'       if opts['chatwork'].blank?
+      raise InvalidConfiguration, 'Require configuration: chatwork.email' if opts['chatwork']['email'].blank?
+      raise InvalidConfiguration, 'Require configuration: chatwork.pass'  if opts['chatwork']['pass'].blank?
+      raise InvalidConfiguration, 'Require configuration: chatwork.rooms' if opts['chatwork']['rooms'].blank?
+      raise InvalidConfiguration, 'Require configuration: notifiers'      if opts['notifiers'].blank?
     end
 
     class << self
@@ -40,5 +40,5 @@ module ChatworkTo
     end
   end
 
-  class InvalideConfiguration < StandardError; end;
+  class InvalidConfiguration < StandardError; end;
 end
