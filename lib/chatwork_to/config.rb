@@ -40,12 +40,13 @@ module ChatworkTo
         confs.unshift(opts['yaml']) if opts['yaml'].present?
 
         confs.compact.each do |file_or_dir|
+          file_or_dir = File.expand_path(file_or_dir)
           if File.directory?(file_or_dir)
             yml = File.join(file_or_dir, 'chatwork_to.yml')
           else
             yml = file_or_dir
           end
-          config = YAML.load_file(File.expand_path(yml)) rescue nil
+          config = YAML.load(ERB.new(IO.read(File.expand_path(yml))).result) rescue nil
           return config unless config.nil?
         end
         nil
