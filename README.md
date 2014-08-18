@@ -56,8 +56,24 @@ notifiers:
 ```
 
 ## Run
+### Foreground
 ```
 $ chatwork_to
+```
+
+### Daemon
+Using [daemons](https://rubygems.org/gems/daemons 'daemos').
+```
+$ chatwork_to start
+```
+```
+$ chatwork_to stop
+```
+```
+$ chatwork_to restart
+```
+```
+$ chatwork_to status
 ```
 
 ## Contributing
