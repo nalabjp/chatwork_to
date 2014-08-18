@@ -36,13 +36,13 @@ notifiers:
   -
     name: simple
 ```
-If used `io` option, logger output to file. `rotate`(Default:`weekly`) option is compliant with the rotate option of Ruby Logger.
+If used `io` option, logger output to file. `rotation`(Default:`weekly`) option is compliant with the rotation option of Ruby Logger.
 ```
 notifiers:
   -
     name: simple
     io: '~/logs/chatwork_to.log'
-    rotate: weekly
+    rotation: weekly
 ```
 
 ### Slack
