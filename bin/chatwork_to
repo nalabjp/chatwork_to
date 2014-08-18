@@ -1,4 +1,19 @@
 #!/usr/bin/env ruby
+require 'daemons'
 require 'chatwork_to'
 
-ChatworkTo::Process.new.run
+if ARGV.length > 0
+  daemons_opts = {
+    ontop: false,
+    monitor: true,
+    backtrace: true,
+  }
+  chatwork_to_opts = {
+    'dir' => Dir.pwd
+  }
+  Daemons.run_proc('chatwork_to', daemons_opts) do
+    ChatworkTo::Process.new(chatwork_to_opts).run
+  end
+else
+  ChatworkTo::Process.new.run
+end
