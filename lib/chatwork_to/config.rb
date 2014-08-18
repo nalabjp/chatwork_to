@@ -40,8 +40,8 @@ module ChatworkTo
         confs.unshift(opts['yaml']) if opts['yaml'].present?
 
         confs.compact.each do |file_or_dir|
-          if Dir.directory?(file_or_dir)
-            yml = file_or_dir.concat('chatwork_to.yml')
+          if File.directory?(file_or_dir)
+            yml = File.join(file_or_dir, 'chatwork_to.yml')
           else
             yml = file_or_dir
           end
