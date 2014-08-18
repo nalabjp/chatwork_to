@@ -6,7 +6,7 @@ module ChatworkTo
         if opts['io'].is_a?(String)
           opts['io'] = File.expand_path(opts['io'])
           FileUtils.mkdir_p(File.dirname(opts['io']))
-          File.open(opts['io'], 'a')
+          FileUtils.touch(opts['io']) unless File.exists?(opts['io'])
         end
         @logger = Logger.new(opts['io'], opts['rotation'])
         @logger.level = Logger::DEBUG

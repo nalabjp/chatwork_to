@@ -7,7 +7,7 @@ notifiers:
   -
     name: simple
   #  io: '/path/to/log_file'
-  #  rotate: 'Ruby Logger rotate option'
+  #  rotation: 'Ruby Logger rotation option'
   #-
   #  name: slack
   #  token: 'token_here'      # API authentication token
