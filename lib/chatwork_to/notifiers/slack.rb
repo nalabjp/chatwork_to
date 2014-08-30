@@ -39,7 +39,7 @@ module ChatworkTo
           {
             fallback: 'chatwork message',
             title: "#{rname} (rid:#{rid})",
-            value: decorate(msg),
+            value: decorate(msg).concat(room_link(rid)),
             short: false,
           }
         ]
@@ -63,6 +63,10 @@ module ChatworkTo
 
       def decorate(text)
         text
+      end
+
+      def room_link(room_id)
+        "\nhttps://www.chatwork.com/#!rid#{room_id}"
       end
     end
   end
