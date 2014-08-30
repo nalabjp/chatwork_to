@@ -1,6 +1,8 @@
 module ChatworkTo
   module Notifiers
     class Slack
+      using ChatworkTo::MessageDecorator
+
       def initialize(opts = {})
         @debug = !!opts.delete('debug')
         build_uri
@@ -30,16 +32,15 @@ module ChatworkTo
       def request_body(chat, room, users)
         fid   = chat['aid'].to_s
         fname = users[fid]['name']
-        rid   = room['id']
+        rid   = room['id'].to_s
         rname = room['name'].presence || fname
         msg   = chat['msg']
-        text  = "Message from #{fname} (id:#{fid})"
-        attachment = {}
+        text  = "*Message from '#{fname}' (id:#{fid}) in '#{rname}' (rid:#{rid})*"
+        attachment = { color: '#D00000' }
         attachment[:fields] = [
           {
             fallback: 'chatwork message',
-            title: "#{rname} (rid:#{rid})",
-            value: decorate(msg).concat(room_link(rid)),
+            value: decorate(msg).concat("\n\n#{rid.room_url}"),
             short: false,
           }
         ]
@@ -63,10 +64,11 @@ module ChatworkTo
 
       def decorate(text)
         text
-      end
-
-      def room_link(room_id)
-        "\nhttps://www.chatwork.com/#!rid#{room_id}"
+          .gsub_task_added!
+          .gsub_task_done!
+          .gsub_reply!
+          .gsub_file_uploaded!
+          .gsub_quote!
       end
     end
   end
