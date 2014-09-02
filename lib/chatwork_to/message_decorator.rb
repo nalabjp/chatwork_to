@@ -23,6 +23,10 @@ module ChatworkTo
         end || self
       end
 
+      def gsub_chatroom_edited!
+        gsub!(/\[info\]\[title\]\[dtext:chatroom_chat_edited\].+\[\/info\]/m, 'Edited chatroom') || self
+      end
+
       def room_url
         "https://www.chatwork.com/#!rid#{self}"
       end

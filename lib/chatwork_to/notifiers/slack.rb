@@ -69,6 +69,7 @@ module ChatworkTo
           .gsub_reply!
           .gsub_file_uploaded!
           .gsub_quote!
+          .gsub_chatroom_edited!
       end
     end
   end
